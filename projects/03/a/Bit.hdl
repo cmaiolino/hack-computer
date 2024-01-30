@@ -11,7 +11,9 @@
 CHIP Bit {
     IN in, load;
     OUT out;
+    /* Using a DFF chip here, so, this whole chip becomes clock dependent */
 
     PARTS:
-    //// Replace this comment with your code.
+	Mux(a=fromDFF, b=in, sel=load, out=toDFF);
+	DFF(in=toDFF, out=fromDFF, out=out);
 }

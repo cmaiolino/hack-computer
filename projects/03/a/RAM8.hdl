@@ -12,6 +12,20 @@ CHIP RAM8 {
     IN in[16], load, address[3];
     OUT out[16];
 
+	/* Doesn't matter if we feed the same data to every register. The
+	 * registers will only load the data IF load is set. And only one
+	 * register can have the load set at a time.
+	 */
     PARTS:
-    //// Replace this comment with your code.
+	DMux8Way(in=load, sel=address, a=LoadR0, b=LoadR1, c=LoadR2, d=LoadR3, e=LoadR4, f=LoadR5, g=LoadR6, h=LoadR7);
+	Register(in=in, load=LoadR0, out=R0Out); /* R0 */
+	Register(in=in, load=LoadR1, out=R1Out); /* R1 */
+	Register(in=in, load=LoadR2, out=R2Out); /* R2 */
+	Register(in=in, load=LoadR3, out=R3Out); /* R3 */
+	Register(in=in, load=LoadR4, out=R4Out); /* R4 */
+	Register(in=in, load=LoadR5, out=R5Out); /* R5 */
+	Register(in=in, load=LoadR6, out=R6Out); /* R6 */
+	Register(in=in, load=LoadR7, out=R7Out); /* R7 */
+	Mux8Way16(a=R0Out, b=R1Out, c=R2Out, d=R3Out, e=R4Out, f=R5Out, g=R6Out, h=R7Out, sel=address, out=out);
+	
 }
